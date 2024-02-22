@@ -8,24 +8,38 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->integer('id', true);
+            $table->string('name')->index();
+            $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->string('cpf', 11)->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('address')->nullable();
+            $table->string('whatsapp', 20)->nullable();
+            $table->string('school')->nullable();
+            $table->integer('grade')->nullable();
+            $table->string('resume')->nullable();
+            $table->integer('store_id')->index();
+            $table->integer('role_id')->index();
+            $table->integer('sponsor_id')->index()->nullable();
+            $table->double('lesson_price', 8, 2)->nullable();
             $table->rememberToken();
-            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('users');
     }

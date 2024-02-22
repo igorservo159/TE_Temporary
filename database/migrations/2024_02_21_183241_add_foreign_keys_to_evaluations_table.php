@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
+        Schema::table('evaluations', function (Blueprint $table) {
+            $table->foreign(['student_id'])->references(['id'])->on('users');
+            $table->foreign(['tutor_id'])->references(['id'])->on('users');
         });
     }
 
@@ -27,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_reset_tokens');
+        Schema::table('evaluations', function (Blueprint $table) {
+            $table->dropForeign(['student_id']);
+            $table->dropForeign(['tutor_id']);
+        });
     }
 };
